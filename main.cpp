@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
   cout << "device to device memory copy latency" << "\n";
   cout << "Running on device: " << q.get_device().get_info<info::device::name>()
        << "\n";
-  
+
   cout << "size" << ",MB,"
        << "memcpy(sub)" << ",ms,"
        << "memcpy(exe)" << ",ms,"
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
        << "kerenel(exe)" << ",ms,"
        << "kerenel(sub)" << ",GB/s,"
        << "\n";
-  for(size_t mb = 1 ; mb <= 1024; mb = mb << 1 ){
+  for(size_t mb = 1 ; mb <= 4096; mb = mb << 1 ){
     copy(q, mb * 1024 * 1024);
   }
   return 0;
