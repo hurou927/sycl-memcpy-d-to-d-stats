@@ -92,7 +92,8 @@ int main(int argc, char *argv[]) {
   cout << "device to device memory copy latency" << "\n";
   cout << "Running on device: " << q.get_device().get_info<info::device::name>()
        << "\n";
-
+  cout << "sub: submission time(elapsed time by chrono)\n";
+  cout << "exe: execution time(sycl::event.command_end - sycl::event.command_start)\n\n";
   cout << "size" << ",MB,"
        << "memcpy(sub)" << ",ms,"
        << "memcpy(exe)" << ",ms,"

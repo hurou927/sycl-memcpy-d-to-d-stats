@@ -1,13 +1,14 @@
-# SYCL: memcpy(d to d)
+# SYCL: Memcpy(Device2Device) Latency
 
 ## Build & Run
 
 ```sh
+# Fix compiler flag
 $ make
 $ ./main
 ```
 
-## Result 
+## Result
 
 - CPU: 11th Gen Intel(R) Core(TM) i7-11700K @ 3.60GHz
 - GPU: Intel(R) UHD Graphics 750
@@ -48,19 +49,25 @@ $ ./main
 ```tsv
 Running on device: Intel(R) UHD Graphics 750 [0x4c8a]
 
+sub: submission time(elapsed time by chrono)
+exe: execution time(sycl::event.command_end - sycl::event.command_start)
+
 size  MB  memcpy(sub)  ms  memcpy(exe)  ms  memcpy(sub)  GB/s  kernel(sub)  ms  kerenel(exe)  ms  kerenel(sub)  GB/s
-1     MB  0.971305  ms  0.04482   ms  21.7885  GB/s  0.156854  ms  0.044654  ms  21.8695  GB/s
-2     MB  0.619945  ms  0.079182  ms  24.6663  GB/s  0.093691  ms  0.061918  ms  31.5437  GB/s
-4     MB  1.25683   ms  0.152554  ms  25.6057  GB/s  0.156751  ms  0.12284   ms  31.7995  GB/s
-8     MB  2.36453   ms  0.333162  ms  23.4496  GB/s  0.334329  ms  0.268256  ms  29.1233  GB/s
-16    MB  4.92213   ms  0.763268  ms  20.4712  GB/s  0.887305  ms  0.798294  ms  19.573   GB/s
-32    MB  9.51546   ms  1.51558   ms  20.6192  GB/s  1.74429   ms  1.66481   ms  18.7709  GB/s
-64    MB  18.032    ms  3.19367   ms  19.5699  GB/s  3.60381   ms  3.49198   ms  17.8982  GB/s
-128   MB  37.7931   ms  7.15095   ms  17.4802  GB/s  7.13208   ms  7.0296    ms  17.7819  GB/s
-256   MB  73.5095   ms  13.7229   ms  18.2177  GB/s  14.0961   ms  13.9594   ms  17.909   GB/s
-512   MB  147.409   ms  28.7092   ms  17.416   GB/s  27.5531   ms  27.3467   ms  18.2838  GB/s
-1024  MB  289.175   ms  55.4838   ms  18.0233  GB/s  55.7034   ms  55.4017   ms  18.05    GB/s
-2048  MB  583.512   ms  113.84    ms  17.5684  GB/s  111.616   ms  111.054   ms  18.0093  GB/s
-4096  MB  1278.29   ms  226.082   ms  17.6927  GB/s  223.95    ms  222.971   ms  17.9395  GB/s
+1     MB  0.809795     ms  0.040006     ms  24.4104      GB/s  0.130729     ms  0.044322      ms  22.0334       GB/s
+2     MB  0.578274     ms  0.064408     ms  30.3243      GB/s  0.0913       ms  0.061752      ms  31.6285       GB/s
+4     MB  1.27648      ms  0.131472     ms  29.7116      GB/s  0.12729      ms  0.092296      ms  42.3231       GB/s
+8     MB  2.23178      ms  0.300958     ms  25.9588      GB/s  0.27348      ms  0.222772      ms  35.0695       GB/s
+16    MB  4.47386      ms  0.686244     ms  22.7689      GB/s  1.04915      ms  0.887104      ms  17.6135       GB/s
+32    MB  9.64813      ms  1.43424      ms  21.7885      GB/s  1.84347      ms  1.72408       ms  18.1257       GB/s
+64    MB  18.9782      ms  3.23086      ms  19.3447      GB/s  3.55251      ms  3.404         ms  18.3608       GB/s
+128   MB  36.5769      ms  6.68299      ms  18.7042      GB/s  6.95571      ms  6.76998       ms  18.4639       GB/s
+256   MB  72.9654      ms  13.3278      ms  18.7578      GB/s  13.6568      ms  13.5129       ms  18.5008       GB/s
+512   MB  145.823      ms  27.4664      ms  18.2041      GB/s  27.4479      ms  27.2429       ms  18.3534       GB/s
+
 ```
 
+queue.memcpy(d_to_d) is very slow since JIT may be running(?).
+
+Intel Integrated GPUの場合、CPUとDRAMをシェアするはずだからDtoDのコピーもC/C++のmemcpyを使ってもよいはず?
+DtoDでmemcpyが遅くなるのはJITでKernelを起動しているから?(仕方ないが)
+JITによるoverheadだとしてもサイズに比例するのはなんでなんだ?
