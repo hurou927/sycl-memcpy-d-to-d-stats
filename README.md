@@ -53,21 +53,25 @@ sub: submission time(elapsed time by chrono)
 exe: execution time(sycl::event.command_end - sycl::event.command_start)
 
 size  MB  memcpy(sub)  ms  memcpy(exe)  ms  memcpy(sub)  GB/s  kernel(sub)  ms  kerenel(exe)  ms  kerenel(sub)  GB/s
-1     MB  0.809795     ms  0.040006     ms  24.4104      GB/s  0.130729     ms  0.044322      ms  22.0334       GB/s
-2     MB  0.578274     ms  0.064408     ms  30.3243      GB/s  0.0913       ms  0.061752      ms  31.6285       GB/s
-4     MB  1.27648      ms  0.131472     ms  29.7116      GB/s  0.12729      ms  0.092296      ms  42.3231       GB/s
-8     MB  2.23178      ms  0.300958     ms  25.9588      GB/s  0.27348      ms  0.222772      ms  35.0695       GB/s
-16    MB  4.47386      ms  0.686244     ms  22.7689      GB/s  1.04915      ms  0.887104      ms  17.6135       GB/s
-32    MB  9.64813      ms  1.43424      ms  21.7885      GB/s  1.84347      ms  1.72408       ms  18.1257       GB/s
-64    MB  18.9782      ms  3.23086      ms  19.3447      GB/s  3.55251      ms  3.404         ms  18.3608       GB/s
-128   MB  36.5769      ms  6.68299      ms  18.7042      GB/s  6.95571      ms  6.76998       ms  18.4639       GB/s
-256   MB  72.9654      ms  13.3278      ms  18.7578      GB/s  13.6568      ms  13.5129       ms  18.5008       GB/s
-512   MB  145.823      ms  27.4664      ms  18.2041      GB/s  27.4479      ms  27.2429       ms  18.3534       GB/s
-
+1     MB  0.829011     ms  0.040338     ms  24.2095      GB/s  0.11962      ms  0.033034      ms  29.5623       GB/s
+2     MB  0.583678     ms  0.062748     ms  31.1265      GB/s  0.101806     ms  0.070716      ms  27.6193       GB/s
+4     MB  1.19333      ms  0.160024     ms  24.4104      GB/s  0.137361     ms  0.10209       ms  38.2628       GB/s
+8     MB  2.21423      ms  0.30793      ms  25.371       GB/s  0.265103     ms  0.21912       ms  35.654        GB/s
+16    MB  4.72037      ms  0.70384      ms  22.1996      GB/s  0.924081     ms  0.837304      ms  18.6611       GB/s
+32    MB  9.43056      ms  1.47325      ms  21.2116      GB/s  2.15085      ms  2.06006       ms  15.1695       GB/s
+64    MB  19.4352      ms  3.27535      ms  19.082       GB/s  3.57155      ms  3.47139       ms  18.0043       GB/s
+128   MB  39.642       ms  6.89332      ms  18.1335      GB/s  7.22887      ms  7.11161       ms  17.5769       GB/s
+256   MB  76.1264      ms  14.0592      ms  17.7819      GB/s  13.9         ms  13.7433       ms  18.1907       GB/s
+512   MB  149.831      ms  28.208       ms  17.7254      GB/s  28.4484      ms  28.2457       ms  17.7018       GB/s
+1024  MB  297.392      ms  55.9339      ms  17.8783      GB/s  55.1564      ms  54.8527       ms  18.2306       GB/s
+2048  MB  591.187      ms  110.26       ms  18.139       GB/s  111.164      ms  110.641       ms  18.0765       GB/s
+4096  MB  1142.15      ms  219.21       ms  18.2474      GB/s  219.74       ms  218.773       ms  18.2838       GB/s
 ```
 
 queue.memcpy(d_to_d) is very slow since JIT may be running(?).
 
 Intel Integrated GPUの場合、CPUとDRAMをシェアするはずだからDtoDのコピーもC/C++のmemcpyを使ってもよいはず?
+
 DtoDでmemcpyが遅くなるのはJITでKernelを起動しているから?(仕方ないが)
+
 JITによるoverheadだとしてもサイズに比例するのはなんでなんだ?
