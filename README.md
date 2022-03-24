@@ -67,6 +67,7 @@ size  MB  memcpy(sub)  ms  memcpy(exe)  ms  memcpy(sub)  GB/s  kernel(sub)  ms  
 2048  MB  591.187      ms  110.26       ms  18.139       GB/s  111.164      ms  110.641       ms  18.0765       GB/s
 4096  MB  1142.15      ms  219.21       ms  18.2474      GB/s  219.74       ms  218.773       ms  18.2838       GB/s
 ```
+メモリのBandwidthが25.6GB/sだから1-Read+1-Writeで12.8/sくらいが理論値になるはず。計測結果はそれより良い結果に見える?
 
 queue.memcpy(d_to_d) is very slow since JIT may be running(?).
 
@@ -75,3 +76,4 @@ Intel Integrated GPUの場合、CPUとDRAMをシェアするはずだからDtoD�
 DtoDでmemcpyが遅くなるのはJITでKernelを起動しているから?(仕方ないが)
 
 JITによるoverheadだとしてもサイズに比例するのはなんでなんだ?
+
